@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module sdkVersion="3.7b" originalPluginFileName="Krampus&apos; Toolbox.rpk" compilationDate="09122024005328" sdkApiVersion="88" sdkMinorApiVersion="2" compilationDigest="bd47d993538f26792169d54906c349a4563bfd7e" compilationUniqueID="67563f88a0902e38002016fc">
+    
+    <id>krampus.toolbox</id>
+    <!--"version" é a versão do seu plugin. Quando você lança uma nova versão do seu módulo, altere aqui =)-->
+    <version>1.0</version>
+    <info lang="pt-BR">
+        <!--Informações do plugin na língua "pt-BR". Você pode ter várias tags "info", uma para cada tradução que quiser.-->
+        <name>Krampus' Toolbox</name>
+        <description>Krampus</description>
+        <author>Krampus</author>
+        <site>linktr.ee/umKrampus</site>
+        <contact>Krampus</contact>
+    </info>
+    <name>Krampus' Toolbox</name>
+    <description>Krampus</description>
+    <author>Krampus</author>
+    <site>linktr.ee/umKrampus</site>
+    <contact>Krampus</contact>
+</module>
