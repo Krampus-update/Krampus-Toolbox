@@ -1,6 +1,9 @@
 require("firecast.lua");
 require("dialogs.lua");
 require("scene.lua");
+local utils = require("utils.lua");
+
+local validDataTypes = {"br.com.rrpg.DnD5_S3"}
 
 -- sempre que alguma mensagem é enviada no chat 
 Firecast.listen("ChatMessage", function(msg)
@@ -20,7 +23,7 @@ Firecast.listen("ChatMessage", function(msg)
             local promise = mainPG:asyncOpenNDB();
             local sheet = await(promise)
             -- detecta o sistema na qual o plugin está, no caso D&D
-            if mainPG.dataType == "br.com.rrpg.DnD5_S3" then
+            if utils.contains(validDataTypes, mainPG.dataType) then
                 -- salva em uma variavel a vida atual e maxima
                 local PV, PVMax = meuJogador:getBarValue(1);
                 local PVTemp = meuJogador:getBarValue(2);
@@ -29,8 +32,8 @@ Firecast.listen("ChatMessage", function(msg)
                 sheet.PVMax = PVMax;
                 sheet.PVTemporario = PVTemp;
                 -- define a seguinda linha para conter a CA, PP e CD (de magia) do personagem atual
-                meuJogador:requestSetEditableLine(2,
-                    "CA " .. (sheet.CA or  0) .. " | PP " .. (sheet.sabedoriaPassiva or 0) .. " | CD " .. (sheet.magias.cdDaMagia or 0));
+                meuJogador:requestSetEditableLine(2, "CA " .. (sheet.CA or 0) .. " | PP " ..
+                    (sheet.sabedoriaPassiva or 0) .. " | CD " .. (sheet.magias.cdDaMagia or 0));
                 -- se for o Nair (meu personagem)
                 if sheet.nome == "[§K3]N[§K18]a[§K1]ir" then
                     -- faz um calculo doido para calcular a altura dele com base na vida atual dele
