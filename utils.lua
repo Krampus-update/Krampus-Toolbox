@@ -9,9 +9,8 @@ function utils.contains(table, val)
     return false
 end
 
-function utils.processMessage(msg,validDataTypes)
-    
-    local objMesa = msg.room
+function utils.processMessage(msg, validDataTypes)
+        local objMesa = msg.room
     if objMesa == nil then
         return nil, nil, nil
     else
