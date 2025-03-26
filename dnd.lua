@@ -28,7 +28,6 @@ Firecast.listen("ChatMessage", function(msg)
             if scene.items[i].objectType == "token" then
                 if scene.items[i].ownerCharacter == meuJogador.personagemPrincipal then
                     scene.items[i].barMax1 = tonumber(sheet.PVMax);
-                    scene.items[i].barValue1 = tonumber(sheet.PV);
                 end
             end
         end
