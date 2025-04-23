@@ -1,8 +1,8 @@
 require("firecast.lua");
 require("dialogs.lua");
 require("scene.lua");
-local utils = require("utils.lua");
 
+local utils = require("utils.lua");
 local validDataTypes = {"br.com.rrpg.DnD5_S3", "MultiVerso_MdB_Shinobi"}
 
 Firecast.listen("ChatMessage", function(msg)
@@ -10,17 +10,23 @@ Firecast.listen("ChatMessage", function(msg)
     if mainPG == nil then
         return
     end
-
-    sheet.PV, sheet.PVMax = meuJogador:getBarValue(1);
-    sheet.PVTemporario = meuJogador:getBarValue(2);
-    meuJogador:requestSetEditableLine(2, "CA " .. (sheet.CA or 0) .. " | PP " .. (sheet.sabedoriaPassiva or 0) .. " | CD " .. (sheet.magias.cdDaMagia or 0));
+    sheet.PV = mainPG.bar0Val
+    sheet.PVMax = mainPG.bar0Max
+    sheet.PVTemporario = mainPG.bar1Val
+    sheet.dadosdevidatotal = mainPG.bar2Max
+    mainPG:asyncUpdate({
+        edtLine1="CA " .. (sheet.CA or 0) .. " | PP " .. (sheet.sabedoriaPassiva or 0) .. " | CD " .. (sheet.magias.cdDaMagia or 0)
+    }):await()
+    
     if sheet.nome == "[§K3]N[§K18]a[§K1]ir" then
+        utils.atualizarAvatarPorMensagem(msg, mainPG)
         local alturaMin = 1.2;
         local alturaMax = 2.4;
-        local alturaAtual = math.floor((alturaMin + (tonumber(sheet.PV) / tonumber(sheet.PVMax)) * (alturaMax - alturaMin)) * 100) / 100;
-        meuJogador:requestSetEditableLine(1, sheet.classeENivel .. " | " .. alturaAtual .. "m");
+        local alturaAtual = math.floor((alturaMin + (tonumber(sheet.PV) / tonumber(sheet.PVMax)) *
+                                           (alturaMax - alturaMin)) * 100) / 100;
+        mainPG:asyncUpdate({edtLine0 = sheet.classeENivel .. " | " .. alturaAtual .. "m"}):await()
     else
-        meuJogador:requestSetEditableLine(1, sheet.classeENivel);
+        mainPG:asyncUpdate({edtLine0 = sheet.classeENivel}):await()
     end
     SceneLib.registerPlugin(function(scene, attachment)
         for i = 1, #scene.items, 1 do
