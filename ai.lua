@@ -141,6 +141,7 @@ Firecast.listen("ChatMessage", function(msg)
             response = response:gsub("Ãµ", "õ")
             response = response:gsub("Ã ", "à")
             response = response:gsub("Ã¢", "â")
+            response = response:gsub("â‰¥", "≥")
             response = response:gsub("Ã­", "í")
 
             -- arrumando o espaço para pensamento
@@ -165,7 +166,7 @@ Firecast.listen("ChatMessage", function(msg)
 
         if msg.type == "action" then
             request:send('{"model": "' .. toolbox.model ..
-                             '", "messages":[{"role": "system","content":"you are an assistant for a VTT program, you will receive messages in portuguese most of the time so try to keep your responses concise and relevant. dont use emotes only plain text and markdown compatible things"},{"role": "user","content": "' ..
+                             '", "messages":[{"role": "system","content":"you are an assistant for a VTT program, you will receive messages in portuguese most of the time so try to keep your responses concise and relevant. dont use emotes only plain text and markdown compatible things"},{"role": "user","content": "following your guidelines answer the following prompt as close as you can, try to be productive and suggest changes (if needed). Prompt: ' ..
                              msg.content .. '"}], "temperature": 0.7, "max_tokens": 5000,"stream":false}')
         end
     end
