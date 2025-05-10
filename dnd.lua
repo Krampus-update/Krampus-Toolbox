@@ -3,6 +3,7 @@ require("dialogs.lua");
 require("scene.lua");
 
 local utils = require("utils.lua");
+
 local validDataTypes = {"br.com.rrpg.DnD5_S3", "MultiVerso_MdB_Shinobi"}
 
 Firecast.listen("ChatMessage", function(msg)
