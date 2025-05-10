@@ -1,13 +1,24 @@
 require("firecast.lua");
 require("dialogs.lua");
 require("scene.lua");
-
 local utils = require("utils.lua");
 
-local validDataTypes = {"br.com.rrpg.DnD5_S3", "MultiVerso_MdB_Shinobi"}
+-- acessando ou criando a DB
+local toolbox = NDB.load("toolbox.xml")
+
+-- verifica se a DB tem algo se não cria uma tabela vazia
+if toolbox == nil then
+    toolbox = {}
+end
+-- verifica os dataTypes validos existem
+if toolbox.validDataTypes == nil then
+    toolbox.validDataTypes = {}
+end
+
+toolbox.validDataTypes = {"br.com.rrpg.DnD5_S3", "MultiVerso_MdB_Shinobi"}
 
 Firecast.listen("ChatMessage", function(msg)
-    local mainPG, meuJogador, sheet = utils.processMessage(msg, validDataTypes)
+    local mainPG, meuJogador, sheet = utils.processMessage(msg, toolbox.validDataTypes)
     if mainPG == nil then
         return
     end
