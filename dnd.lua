@@ -3,22 +3,10 @@ require("dialogs.lua");
 require("scene.lua");
 local utils = require("utils.lua");
 
--- acessando ou criando a DB
-local toolbox = NDB.load("toolbox.xml")
-
--- verifica se a DB tem algo se não cria uma tabela vazia
-if toolbox == nil then
-    toolbox = {}
-end
--- verifica os dataTypes validos existem
-if toolbox.validDataTypes == nil then
-    toolbox.validDataTypes = {}
-end
-
-toolbox.validDataTypes = {"br.com.rrpg.DnD5_S3", "MultiVerso_MdB_Shinobi"}
+local validDataTypes = {"br.com.rrpg.DnD5_S3", "MultiVerso_MdB_Shinobi"}
 
 Firecast.listen("ChatMessage", function(msg)
-    local mainPG, meuJogador, sheet = utils.processMessage(msg, toolbox.validDataTypes)
+    local mainPG, meuJogador, sheet = utils.processMessage(msg, validDataTypes)
     if mainPG == nil then
         return
     end
@@ -26,19 +14,22 @@ Firecast.listen("ChatMessage", function(msg)
     sheet.PVMax = mainPG.bar0Max
     sheet.PVTemporario = mainPG.bar1Val
     sheet.dadosdevidatotal = mainPG.bar2Max
-    mainPG:asyncUpdate({
-        edtLine1="CA " .. (sheet.CA or 0) .. " | PP " .. (sheet.sabedoriaPassiva or 0) .. " | CD " .. (sheet.magias.cdDaMagia or 0)
-    }):await()
-    
+
     if sheet.nome == "[§K3]N[§K18]a[§K1]ir" then
         utils.atualizarAvatarPorMensagem(msg, mainPG)
         local alturaMin = 1.2;
         local alturaMax = 2.4;
         local alturaAtual = math.floor((alturaMin + (tonumber(sheet.PV) / tonumber(sheet.PVMax)) *
                                            (alturaMax - alturaMin)) * 100) / 100;
-        mainPG:asyncUpdate({edtLine0 = sheet.classeENivel .. " | " .. alturaAtual .. "m"}):await()
+        mainPG:asyncUpdate({
+            edtLine0 = sheet.classeENivel .. " | " .. alturaAtual .. "m",
+            edtLine1="CA " .. (sheet.CA or 0) .. " | PP " .. (sheet.sabedoriaPassiva or 0) .. " | CD " .. (sheet.magias.cdDaMagia or 0)
+        }):await()
     else
-        mainPG:asyncUpdate({edtLine0 = sheet.classeENivel}):await()
+        mainPG:asyncUpdate({
+            edtLine0 = sheet.classeENivel,
+            edtLine1="CA " .. (sheet.CA or 0) .. " | PP " .. (sheet.sabedoriaPassiva or 0) .. " | CD " .. (sheet.magias.cdDaMagia or 0)
+        }):await()
     end
     SceneLib.registerPlugin(function(scene, attachment)
         for i = 1, #scene.items, 1 do
