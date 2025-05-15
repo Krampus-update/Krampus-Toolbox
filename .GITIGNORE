@@ -1,5 +1,3 @@
-# Ignore all files in the folder "output"
-output/
-
+/output/rdkObjs
 # Ignore all files in the folder "sdk"
 sdk/
